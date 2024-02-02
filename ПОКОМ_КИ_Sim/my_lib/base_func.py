@@ -210,6 +210,7 @@ def create_new_file(name_file, table):
 def create_header(table, ws):
     header_color = HEADER_COLOR
     header_col_sum = HEADER_COLOR_SUM
+    current_date = input('Введите текущую дату: ')
     table.number_columns()  # пронумеровать колонки
     header_data = table.get_header()
     for i in header_data:
@@ -232,6 +233,8 @@ def create_header(table, ws):
             cell.font = Font(bold=True)
             if i == 'krim_order':
                 cell.font = Font(bold=True, color=RED_FONT) # меняем цвет шрифта
+            if i == 'new_average_sales':
+                ws.cell(row=table.START_HEADER + 1, column=header_data[i][1]).value = current_date
             if header_data[i][2]: # добавление суммы в колонку
                 cell_sum = ws.cell(row=table.START_HEADER + 2, column=header_data[i][1])
                 sym = get_column_letter(header_data[i][1])
