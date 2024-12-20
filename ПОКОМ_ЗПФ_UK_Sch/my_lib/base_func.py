@@ -85,6 +85,8 @@ def add_data_from_old_file(file_dv_old, table):
         'average_values': {},  # ср: {'10,11,': 28, ...}
         'comments': None,  # комментарии
         'boxes': None,
+        'layer': None,  # коробок в слое
+        'pallet': None,  # коробок в паллете
     }
 
     columns_val = []
@@ -100,6 +102,12 @@ def add_data_from_old_file(file_dv_old, table):
                 columns_val.append(col)
             if cell_value == 'Ед. изм.':
                 all_columns['units_of_measurement'] = col
+                columns_val.append(col)
+            if cell_value == 'ряд':
+                all_columns['layer'] = col
+                columns_val.append(col)
+            if cell_value == 'паллет':
+                all_columns['pallet'] = col
                 columns_val.append(col)
             if cell_value == 'метка':
                 all_columns['mark'] = col
@@ -235,7 +243,7 @@ def create_header(table, ws):
             cell.value = header_data[i][0]
             cell.fill = PatternFill(patternType='solid', fgColor=header_color)
             cell.font = Font(bold=True)
-            if i == 'order':
+            if i in ('order_requirement', 'order_will_ship'):
                 cell.font = Font(bold=True, color=RED_FONT) # меняем цвет шрифта
             if i == 'new_average_sales':
                 ws.cell(row=table.START_HEADER + 1, column=header_data[i][1]).value = current_date
@@ -270,7 +278,9 @@ def fill_file(table, ws, a_c):
         decl = a_c[table.COLUMNS['declared'][1] - 1]
         diff = a_c[table.COLUMNS['diff'][1] - 1]
         ws[f'{diff}{row}'] = f'={sale}{row}-{decl}{row}'
-        cell_border1 = a_c[table.COLUMNS['order'][1] - 1]
+        cell_border1 = a_c[table.COLUMNS['order_requirement'][1] - 1]
         ws[f'{cell_border1}{row}'].border = Border(top=thick, left=thick, right=thick, bottom=thick)
-        cell_border2 = a_c[table.COLUMNS['order_from_f'][1] - 1]
+        cell_border2 = a_c[table.COLUMNS['order_will_ship'][1] - 1]
         ws[f'{cell_border2}{row}'].border = Border(top=thick, left=thick, right=thick, bottom=thick)
+        cell_border3 = a_c[table.COLUMNS['order_from_f'][1] - 1]
+        ws[f'{cell_border3}{row}'].border = Border(top=thick, left=thick, right=thick, bottom=thick)

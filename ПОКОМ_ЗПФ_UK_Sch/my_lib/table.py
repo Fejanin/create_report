@@ -22,7 +22,10 @@ class Row:
         self.orders_is_on_the_way_last = {}  # Заказы в пути (в коробках)
         self.average_values = {}  # средние значения продаж => {'17,11,': 100, '24,11,': 111, ...}
         self.comments = None # комментарии
-        self.boxes = None
+        self.boxes = None # кол-во коробок в заказе
+        self.layer = None # кол-во коробок в слое
+        self.pallet = None # кол-во коробок в паллете
+        self.number_of_pallets = None # кол-во паллет
 
 
     def get_columns(self):
@@ -67,9 +70,10 @@ class Table:
         'without_wholesale': ['без опта', None, True],
         'wholesale': ['опт', None, True],
         'orders_is_on_the_way': ['заказ в пути', {}, True],
-        'orders_is_on_the_way_last': ['заказ в пути', {}, True], # !!!!!!!!!!!!!!!!!!
+        'orders_is_on_the_way_last': ['заказ в пути', {}, True],
         'new_average_sales': ['ср нов', None, True],
-        'order': ['расчет', None, True],
+        'order_requirement': ['расчет (потребность)', None, True],
+        'order_will_ship': ['расчет (отгрузит завод)', None, True],
         'order_from_f': ['заказ филиала', None, True],
         'comments_from_f': ['Комментарии филиала', None, False],
         'remains': ['кон ост', None, False],
@@ -80,6 +84,9 @@ class Table:
         'boxes': ['крат кор', None, False],
         'boxes ordered': ['заказ кор.', None, True],
         'weight_boxes': ['ВЕС', None, True],
+        'layer': ['ряд', None, False],
+        'pallet': ['паллет', None, False],
+        'number_of_pallets': ['кол-во паллет', None, True],
     }
     START_HEADER = 3
     START_ROWS = 6
