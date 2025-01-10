@@ -34,11 +34,9 @@ ws_Sochi = wb_Sochi.active
 Sochi = ws_Sochi.iter_rows(1, ws_Sochi.max_row)
 for num, i in enumerate(Sochi, 1):
     adress_Sochi = f'{COLUMN}{num}'
-    # print(i[0].value, ws_Sochi[adress_Sochi].value)
-    if i[0].value == 'SU000126':
-        print(i[0].value, adress_Sochi, ws_Sochi[adress_Sochi].value)
     if i[0].value in sku_svarog and ws_Sochi[adress_Sochi].value: # найден штрих-код и заказ не 0
-        print('FIND')
+        print(f'FIND => {i[0].value = }')
+        print(f'{total_weight = } # {ws_Sochi[adress_Sochi].value = } # {adress_Sochi}')
         total_weight += ws_Sochi[adress_Sochi].value
         if sku_svarog[i[0].value][1]: # товар есть в крымском файле
             adress_Krim = f'{COLUMN}{sku_svarog[i[0].value][3]}'
